@@ -1,0 +1,45 @@
+{
+  "name": "doit-service",
+  "version": "1.0.0",
+  "description": "Do-It Server",
+  "main": "index.js",
+  "scripts": {
+    "build-server": "babel src --out-dir dist -s",
+    "clean": "rm -rf dist && mkdir dist",
+    "build": "yarn run clean && yarn run build-server",
+    "serve": "node dist/bin/www.js",
+    "start": "NODE_ENV=production yarn run build && yarn run serve",
+    "start:dev": "NODE_ENV=development nodemon --exec babel-node src/bin/www.js",
+    "lint": "node_modules/.bin/eslint ./src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ikenjoku/doit-service.git"
+  },
+  "author": "Dunamis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ikenjoku/doit-service/issues"
+  },
+  "homepage": "https://github.com/ikenjoku/doit-service#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.2",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^10.0.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^5.10.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "nodemon": "^1.18.9"
+  }
+}
