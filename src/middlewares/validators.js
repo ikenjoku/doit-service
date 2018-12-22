@@ -38,32 +38,35 @@ const validators = {
     const { email, password } = req.body;
     const validationMessageArr = validateEmailAndPassword(email, password);
     if (!validationMessageArr.length) {
-      const userFound = User.findOne({ email }, (err, user) => {
-        if (err) {
+      try {
+        const userFound = await User.findOne({ email });
+        if (!userFound) {
+          return res.status(404).json({
+            status: 404,
+            message: 'User not found. Please Signup',
+          });
+        }
+        const validPassword = await bcrypt.compare(password.trim(), userFound.password);
+        if (!validPassword) {
           return res.json({
             status: 401,
-            message: 'Unable to login',
+            error: 'Invalid Credentials',
           });
         }
-        if (!user) {
-          return res.json({
-            status: 404,
-            error: 'User Not Found',
-          });
-        }
-        return user;
-      });
-      const validPassword = await bcrypt.compare(password.trim(), userFound.password);
-      if (!validPassword) {
-        return res.json({
-          status: 401,
-          error: 'Invalid Credentials',
+
+        req.body = trimFields(req.body);
+        req.user = userFound;
+      } catch (error) {
+        return res.status(500).json({
+          status: 500,
+          message: 'Server Error',
+          error,
         });
       }
-      req.user = userFound;
-      req.body = trimFields(req.body);
     }
-    return (validationMessageArr.length) ? res.json(invalidField(validationMessageArr)) : next();
+    return (validationMessageArr.length)
+      ? res.json(invalidField(validationMessageArr))
+      : next();
   },
 
   async validateUserSignUp(req, res, next) {
@@ -82,24 +85,26 @@ const validators = {
     }
 
     if (!validationMessageArr.length) {
-      const userfound = User.findOne({ email }, (err, user) => {
-        if (err) {
+      try {
+        const userFound = await User.findOne({ email });
+        if (userFound) {
           return res.json({
-            status: 401,
-            message: 'Unable to Signup',
+            status: 409,
+            error: 'Email already Exists',
           });
         }
-        return user;
-      });
-      if (userfound) {
-        return res.json({
-          status: 409,
-          error: 'Email already Exists',
+        req.body = trimFields(req.body);
+      } catch (error) {
+        return res.status(500).json({
+          status: 500,
+          message: 'Server Error',
+          error,
         });
       }
-      req.body = trimFields(req.body);
     }
-    return (validationMessageArr.length) ? res.json(invalidField(validationMessageArr)) : next();
+    return (validationMessageArr.length)
+      ? res.status(400).json(invalidField(validationMessageArr))
+      : next();
   },
 };
 

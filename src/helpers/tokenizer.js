@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
-dotenv();
+dotenv.config();
 
 const secretKey = process.env.SECRET_KEY;
 
@@ -16,7 +16,7 @@ const tokenizer = {
   }),
   verifyToken: (req, res, next) => {
     const token = req.body.token || req.headers['x-access-token']
-    || (req.headers.Authorization && req.headers.Authorization.slice(7))
+    || req.headers.authorization
     || req.params.token;
 
     if (!token) {

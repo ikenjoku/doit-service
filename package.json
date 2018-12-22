@@ -2,7 +2,7 @@
   "name": "doit-service",
   "version": "1.0.0",
   "description": "Do-It Server",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "build-server": "babel src --out-dir dist -s",
     "clean": "rm -rf dist && mkdir dist",
