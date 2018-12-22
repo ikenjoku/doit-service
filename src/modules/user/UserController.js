@@ -1,9 +1,10 @@
 import bcrypt from 'bcrypt';
 import User from '../../database/models/user';
+import tokenizer from '../../helpers/tokenizer';
 
 
 class UserController {
-  async signUpUser(req, res) {
+  static async signUpUser(req, res) {
     const {
       username, email, password,
     } = req.body;
@@ -15,7 +16,7 @@ class UserController {
       password: hashedPassword,
     };
 
-    await User.create(userParams, (err, user) => {
+    const newUser = await User.create(userParams, (err, user) => {
       if (err) {
         return res.status(400).json({
           success: false,
@@ -23,18 +24,18 @@ class UserController {
           error: err,
         });
       }
-
-      delete user.password;
-      const token = await tokenizer.createToken(user);
-      return res.status(201).json({
-        message: 'Successfully registered',
-        token,
-        user,
-      });
+      return user;
+    });
+    delete newUser.password;
+    const token = await tokenizer.createToken(newUser);
+    return res.status(201).json({
+      message: 'Successfully registered',
+      token,
+      user: newUser,
     });
   }
 
-  async loginUser(req, res) {
+  static async loginUser(req, res) {
     const { user } = req;
     delete user.password;
     const token = await tokenizer.createToken(user);
