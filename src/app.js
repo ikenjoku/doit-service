@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import logger from 'morgan';
+import mongoose from 'mongoose';
 
 import modules from './modules';
 
@@ -15,6 +16,9 @@ app.use(bodyParser.urlencoded({
   extended: true,
 }));
 app.use(bodyParser.json());
+// connect to db
+mongoose.connect('mongodb://localhost:27017/do-it', { useNewUrlParser: true });
+const db = mongoose.connection;
 // set base url for api
 modules(app);
 
