@@ -22,7 +22,7 @@ class UserController {
         message: 'Successfully registered',
         token,
         user: {
-          _id: newUser._id,
+          id: newUser._id,
           username: newUser.username,
           email: newUser.email,
         },
@@ -44,7 +44,7 @@ class UserController {
       return res.status(200).json({
         message: 'Successfully logged in',
         token,
-        user: { username: user.username, email: user.email },
+        user: { id: user._id, username: user.username, email: user.email },
       });
     } catch (error) {
       return res.status(500).json({
