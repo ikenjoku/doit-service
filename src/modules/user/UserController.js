@@ -42,7 +42,7 @@ class UserController {
       delete user.password;
       const token = await tokenizer.createToken(user);
       return res.status(200).json({
-        message: 'Successfully logged in',
+        message: `Welcome back ${user.username} 😃`,
         token,
         user: { id: user._id, username: user.username, email: user.email },
       });
