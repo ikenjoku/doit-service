@@ -64,8 +64,8 @@ class TodoController {
         });
       }
 
-      Todo.findOne({ userId, _id: todoId }, (err, updatedTodo) => {
-        if (error) {
+      return Todo.findOne({ userId, _id: todoId }, (err, updatedTodo) => {
+        if (err) {
           return res.status(404).json({
             success: false,
             message: 'Cannot find this todo item',
