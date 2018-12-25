@@ -21,7 +21,7 @@ const tokenizer = {
 
     if (!token) {
       return res.status(401).json({
-        sucess: false,
+        success: false,
         message: 'No token found. Please Login or Signup',
       });
     }

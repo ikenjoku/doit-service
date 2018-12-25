@@ -5,10 +5,27 @@ import TodoController from './TodoController';
 const Router = express.Router();
 
 Router.get(
-  '/todos',
+  '/users/:userId/todos',
   tokenizer.verifyToken,
   TodoController.fetchTodos,
 );
 
+Router.post(
+  '/users/:userId/todos',
+  tokenizer.verifyToken,
+  TodoController.createTodo,
+);
+
+Router.put(
+  '/users/:userId/todos/:todoId',
+  tokenizer.verifyToken,
+  TodoController.updateTodo,
+);
+
+Router.delete(
+  '/users/:userId/todos/:todoId',
+  tokenizer.verifyToken,
+  TodoController.deleteTodo,
+);
 
 export default Router;

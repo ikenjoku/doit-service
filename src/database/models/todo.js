@@ -6,6 +6,10 @@ const TodoSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  userId: {
+    type: String,
+    required: true,
+  },
 });
 const Todo = mongoose.model('Todo', TodoSchema);
 
