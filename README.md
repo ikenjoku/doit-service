@@ -7,6 +7,8 @@ A simple CRUD application for managing todo items.
 
 **doit-service** is the backend application for a React Native client application to manage checklist/todo items. This application also has user authentication and basic validations.
 
+![screenit](https://user-images.githubusercontent.com/32720508/50410108-2aecf680-07f7-11e9-983a-9317bff03e93.png)
+
 # Table of Contents
 
 - [Documentation](#documentation)
