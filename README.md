@@ -80,7 +80,7 @@ process.env.MY_ENV_VARIABLE
 
 
 ## Testing
-TODO - as projest evolves
+TODO - as project evolves
 
 [Jest](https://jestjs.io) will be used as the testing framework for both the unit tests and integration tests.
 To execute all tests, run the command
