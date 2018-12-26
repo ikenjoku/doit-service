@@ -3,8 +3,10 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import logger from 'morgan';
 import mongoose from 'mongoose';
-
+import dotenv from 'dotenv';
 import modules from './modules';
+
+dotenv.config();
 
 const app = express();
 
@@ -17,8 +19,11 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 // connect to db
-mongoose.connect('mongodb://localhost:27017/do-it', { useNewUrlParser: true });
-const db = mongoose.connection;
+if (process.env.NODE_ENV === 'production') {
+  mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true });
+} else {
+  mongoose.connect('mongodb://localhost:27017/do-it', { useNewUrlParser: true });
+}
 // set base url for api
 modules(app);
 
